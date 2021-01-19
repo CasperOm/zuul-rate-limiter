@@ -1,0 +1,34 @@
+####################################################################
+# Application Name : Zuul Server
+#
+# Description : Zuul server properties which are maintained
+# as per level wise
+#
+# Author : Om
+####################################################################
+
+#################
+# Level : DEV   #
+#################
+spring:
+  profiles: dev  datasource:    url: jdbc:h2:mem:testdb
+    username: sa
+    password:  password
+    driver-class-name: org.h2.Driver
+  jpa:    database-platform: org.hibernate.dialect.H2Dialect
+  h2:    console:      enabled: true
+
+zuul:
+  routes:
+    demoService:
+      path: /fetchUserName
+      url: forward:/
+  ratelimit:
+    enabled: true
+    repository: JPA
+    policy-list:
+      demoService:
+      - limit: 30
+        refresh-interval: 60
+        type:
+        - origin
